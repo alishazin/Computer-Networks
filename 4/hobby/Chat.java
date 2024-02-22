@@ -43,17 +43,19 @@ class RecieveMsgThread extends Thread {
 public class Chat {
 
     static int HOST_PORT;
+    static String RECIVERS_IP;
     static int RECIVERS_PORT;
     
     public static void main(String[] args) throws NumberFormatException {
 
-        if (args.length != 2) {
-			throw new IllegalArgumentException("Two arguments are required. Host PORT and Recievers PORT");
+        if (args.length != 3) {
+			throw new IllegalArgumentException("Two arguments are required. Host PORT, Recievers IP and Recievers PORT");
 		}
 
 		try {
 			HOST_PORT = Integer.parseInt(args[0]);
-			RECIVERS_PORT = Integer.parseInt(args[1]);
+			RECIVERS_IP = args[1];
+			RECIVERS_PORT = Integer.parseInt(args[2]);
 		} catch(NumberFormatException e) {
 			throw new NumberFormatException("Host PORT and Recievers PORT must be numbers");
 		}
@@ -83,7 +85,7 @@ public class Chat {
                     
                 } else if (choice == 2) {
                     
-                    s = new Socket("localhost", RECIVERS_PORT);
+                    s = new Socket(RECIVERS_IP, RECIVERS_PORT);
                     outputStream = new DataOutputStream(s.getOutputStream());
 
                     System.out.print("Enter message: ");
