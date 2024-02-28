@@ -11,17 +11,18 @@ class RecieveMsgThread extends Thread {
 
     public void run() {  
         try {
-            while (true) {
-                ss = new ServerSocket(Chat.HOST_PORT);
+            ss = new ServerSocket(Chat.HOST_PORT);
+            
+            while (true) {    
                 Socket recieverSocket = ss.accept();
-        
+
                 DataInputStream inputStream = new DataInputStream(recieverSocket.getInputStream());
                 String msg = (String) inputStream.readUTF();
     
                 this.msgsRecieved[this.msgCount] = msg;
                 this.msgCount++;
-                this.ss.close();
             }
+            // this.ss.close();
         } catch(java.net.SocketException e) {
             System.out.println("----------------Chat Ended----------------");
         } catch(Exception e) {
@@ -49,7 +50,7 @@ public class Chat {
     public static void main(String[] args) throws NumberFormatException {
 
         if (args.length != 3) {
-			throw new IllegalArgumentException("Two arguments are required. Host PORT, Recievers IP and Recievers PORT");
+			throw new IllegalArgumentException("Three arguments are required. Host PORT, Recievers IP and Recievers PORT");
 		}
 
 		try {
