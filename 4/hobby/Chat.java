@@ -64,8 +64,8 @@ public class Chat {
         int choice, i;
         String msg;
         Scanner scanner;
-        Socket s;
-        DataOutputStream outputStream;
+        Socket s = null;
+        DataOutputStream outputStream = null;
 
         RecieveMsgThread rmThread = new RecieveMsgThread();
         rmThread.start();
@@ -86,19 +86,21 @@ public class Chat {
                     
                 } else if (choice == 2) {
                     
-                    s = new Socket(RECIVERS_IP, RECIVERS_PORT);
+                    System.out.println(s);
+                    if (s == null) {
+                        s = new Socket(RECIVERS_IP, RECIVERS_PORT);
+                    }
                     outputStream = new DataOutputStream(s.getOutputStream());
 
                     System.out.print("Enter message: ");
                     scanner = new Scanner(System.in);
                     msg = scanner.nextLine();
                     outputStream.writeUTF(msg);
+
+                } else if (choice == 3) {
                     
                     outputStream.flush();
                     outputStream.close();
-
-                } else if (choice == 3) {
-                   
                     rmThread.close();
                     break;
                    
