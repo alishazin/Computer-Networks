@@ -5,28 +5,33 @@ public class Server{
         
         try {
 
-            String msg;
+            String msg = "";
 
             ServerSocket ss = new ServerSocket(1999);
-            System.out.println("Before");
+
+            System.out.println("Waiting for Client..");
             Socket s = ss.accept();
-            System.out.println("After");
+            System.out.println("Connection Established With Client");
+
             DataOutputStream dos = new DataOutputStream(s.getOutputStream());
             DataInputStream dis = new DataInputStream(s.getInputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            msg = br.readLine();
-
-            while (!msg.equals("quit")){
-                dos.writeUTF(msg);
-                System.out.println("she says: " + dis.readUTF());
+            while (true) {
+                System.out.println("Message From Client: " + dis.readUTF());
+                
+                System.out.print("Enter Message: ");
                 msg = br.readLine();
+                if (msg.equals("!quit")) break;
+                dos.writeUTF(msg);
             }
 
             ss.close();
 
         }
-        catch (IOException ie){
+        catch (EOFException ie){
+            System.out.println("Can't connect to the Client.");
+        } catch (IOException ie){
             ie.printStackTrace();
         }
     }
