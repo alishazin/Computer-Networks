@@ -7,7 +7,9 @@ class Server {
             String str;
 
             ServerSocket server=new ServerSocket(6555);
+            System.out.println("Waiting For Client..");
             Socket socket=server.accept();
+            System.out.println("Connection Established..");
             
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
@@ -18,7 +20,6 @@ class Server {
             
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-            // System.out.println("Here is the standard output of the command:\n");
             String fullstring = "";
             String string = null;
             while ((string = stdInput.readLine()) != null) {

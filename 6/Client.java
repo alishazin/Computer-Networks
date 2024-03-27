@@ -19,11 +19,6 @@ class Client {
             dos.writeUTF(str);
 
             System.out.println(din.readUTF());
-            // while ((str = din.readUTF()) != "!!q!!") {
-            // }
-
-
-
         } catch(IOException e) {
             System.out.println("Error");
             System.out.println(e);
