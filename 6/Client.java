@@ -19,6 +19,8 @@ class Client {
             dos.writeUTF(str);
 
             System.out.println(din.readUTF());
+            socket.close();
+            s.close();
         } catch(IOException e) {
             System.out.println("Error");
             System.out.println(e);
