@@ -6,22 +6,27 @@ public class Server {
     private static DataInputStream dataInputStream=null;
     private static DataOutputStream dataOutputStream=null;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalArgumentException {
 
-        // Here we define Server Socket running on port 900
-        try (ServerSocket serverSocket= new ServerSocket(900)) {
+        if (args.length != 1) {
+			throw new IllegalArgumentException("One argument is required. Path to store the recieving file (exclude format).");
+		}
 
-            Socket clientSocket = serverSocket.accept();
-            System.out.println("Connected");
+        try {
+
+            ServerSocket serverSocket = new ServerSocket(900);
+
+            Socket socket = serverSocket.accept();
+            System.out.println("Connection Established");
             
-            dataInputStream= new DataInputStream(clientSocket.getInputStream());
-            dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+            dataInputStream= new DataInputStream(socket.getInputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
             
-            receiveFile("E:/Arun/Buffer.txt");
+            receiveFile(args[0]);
             
             dataInputStream.close();
             dataOutputStream.close(); 
-            clientSocket.close();
+            socket.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,25 +34,24 @@ public class Server {
 
     }
         
-    // receive file function
-    private static void receiveFile(String fileName)throws Exception {
+    private static void receiveFile(String path) throws Exception {
         
-        int bytes = 0;
+        int bytesRead;
         
-        FileOutputStream fileOutputStream= new FileOutputStream(fileName); long size= dataInputStream.readLong();
+        String file_format = dataInputStream.readUTF();
+
+        FileOutputStream fileOutputStream = new FileOutputStream(path + "." + file_format); 
+        long sizeLeft = dataInputStream.readLong();
         
-        // read file size
         byte[] buffer = new byte[4 * 1024];
+
+        do {
+            bytesRead = dataInputStream.read(buffer, 0, (int) Math.min(buffer.length, sizeLeft));
+            fileOutputStream.write(buffer);
+            sizeLeft -= bytesRead; // subtracting bytes read from size
+        } while (sizeLeft > 0 && bytesRead != -1);
         
-        while (
-            size > 0 && 
-            (bytes = dataInputStream.read(buffer,0,(int)Math.min(buffer.length, size)))!= -1
-        ) {
-            fileOutputStream.write(buffer, 0, bytes);
-            size -= bytes; // read upto file size
-        }
-        
-        System.out.println("File is Received");
+        System.out.println("File is Received and Stored at " + path + "." + file_format);
         fileOutputStream.close();
     }
 }

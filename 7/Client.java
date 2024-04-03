@@ -6,7 +6,11 @@ public class Client {
     private static DataOutputStream dataOutputStream = null;
     private static DataInputStream dataInputStream = null;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalArgumentException {
+
+        if (args.length != 1) {
+			throw new IllegalArgumentException("One argument is required. Path of the file to be sent.");
+		}
         
         try {
 
@@ -16,7 +20,7 @@ public class Client {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             
             System.out.println("Sending the File to the Server");
-            sendFile("E:/Arun/Buffer.txt");
+            sendFile(args[0]);
             
             dataInputStream.close();
             dataInputStream.close();
@@ -29,18 +33,24 @@ public class Client {
 
     private static void sendFile(String path) throws Exception {
         
-        int bytes = 0;
-        File file = new File("E:/Arun/Buffer.txt");
-        
-        FileInputStream fileInputStream= new FileInputStream(file);
+        int bytesRead;
+        File file = new File(path);
 
-        dataOutputStream.writeLong(file.length());
-        byte[] buffer = new byte[4 * 1024];
+        String[] splittedStr = path.split("\\.", 0);
+        dataOutputStream.writeUTF(splittedStr[splittedStr.length - 1]);
         
-        while ((bytes = fileInputStream.read(buffer))!= -1) {
-            dataOutputStream.write(buffer, 0, bytes); 
+        FileInputStream fileInputStream = new FileInputStream(file);
+        int sizeLeft = (int) file.length();
+        dataOutputStream.writeLong(sizeLeft);
+
+        byte[] buffer = new byte[4 * 1024];
+
+        do {
+            bytesRead = fileInputStream.read(buffer, 0, (int) Math.min(buffer.length, sizeLeft));
+            dataOutputStream.write(buffer, 0, bytesRead); 
             dataOutputStream.flush();
-        }
+            sizeLeft -= bytesRead; // subtracting bytes read from size
+        } while (sizeLeft > 0 && bytesRead != -1);
 
         fileInputStream.close();
         dataOutputStream.close();
