@@ -1,0 +1,59 @@
+Graph g = new Graph(9, 28);
+        
+        Node n0 = g.addVertex('0');
+        Node n1 = g.addVertex('1');
+        Node n2 = g.addVertex('2');
+        Node n3 = g.addVertex('3');
+        Node n4 = g.addVertex('4');
+        Node n5 = g.addVertex('5');
+        Node n6 = g.addVertex('6');
+        Node n7 = g.addVertex('7');
+        Node n8 = g.addVertex('8');
+
+        try {
+            g.addEdge(n0, n1, 4, false);
+            g.addEdge(n1, n0, 4, false);
+
+            g.addEdge(n0, n7, 8, false);
+            g.addEdge(n7, n0, 8, false);
+
+            g.addEdge(n1, n7, 11, false);
+            g.addEdge(n7, n1, 11, false);
+
+            g.addEdge(n1, n2, 8, false);
+            g.addEdge(n2, n1, 8, false);
+
+            g.addEdge(n7, n6, 1, false);
+            g.addEdge(n6, n7, 1, false);
+
+            g.addEdge(n7, n8, 7, false);
+            g.addEdge(n8, n7, 7, false);
+
+            g.addEdge(n2, n8, 2, false);
+            g.addEdge(n8, n2, 2, false);
+
+            g.addEdge(n2, n5, 4, false);
+            g.addEdge(n5, n2, 4, false);
+
+            g.addEdge(n2, n3, 7, false);
+            g.addEdge(n3, n2, 7, false);
+
+            g.addEdge(n6, n8, 6, false);
+            g.addEdge(n8, n6, 6, false);
+
+            g.addEdge(n6, n5, 2, false);
+            g.addEdge(n5, n6, 2, false);
+
+            g.addEdge(n5, n3, 14, false);
+            g.addEdge(n3, n5, 14, false);
+
+            g.addEdge(n5, n4, 10, false);
+            g.addEdge(n4, n5, 10, false);
+
+            g.addEdge(n3, n4, 9, false);
+            g.addEdge(n4, n3, 9, false);
+
+            g.dijkstraSP(n0);
+        } catch(GraphException ge) {
+            System.out.println(ge.toString());
+        }

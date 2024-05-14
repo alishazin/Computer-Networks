@@ -1,0 +1,29 @@
+Graph g = new Graph(6, 16);
+        
+        Node A = g.addVertex('A');
+        Node B = g.addVertex('B');
+        Node C = g.addVertex('C');
+        Node D = g.addVertex('D');
+        Node E = g.addVertex('E');
+        Node F = g.addVertex('F');
+
+
+        try {
+            
+            g.addEdge(A, B, 3, false);
+            g.addEdge(A, D, 5, false);
+            g.addEdge(A, C, 2, false);
+
+            g.addEdge(B, D, 1, false);
+
+            g.addEdge(C, D, 2, false);
+            g.addEdge(C, F, 1, false);
+
+            g.addEdge(D, E, 3, false);
+            
+            g.addEdge(E, F, 2, false);
+
+            g.dijkstraSP(A);
+        } catch(GraphException ge) {
+            System.out.println(ge.toString());
+        }

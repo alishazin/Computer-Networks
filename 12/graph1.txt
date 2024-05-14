@@ -1,0 +1,27 @@
+Graph g = new Graph(6, 9);
+        
+        Node A = g.addVertex('A');
+        Node B = g.addVertex('B');
+        Node C = g.addVertex('C');
+        Node D = g.addVertex('D');
+        Node E = g.addVertex('E');
+        Node F = g.addVertex('F');
+
+
+        try {
+            
+            g.addEdge(A, B, 6, true);
+            g.addEdge(A, C, 4, true);
+            g.addEdge(A, D, 5, true);
+            g.addEdge(B, E, -1, true);
+            g.addEdge(C, B, -2, true);
+            g.addEdge(C, E, 3, true);
+            g.addEdge(D, C, -2, true);
+            g.addEdge(E, F, 3, true);
+            g.addEdge(D, F, -1, true);
+            
+
+            g.bellmanFordSP(A);
+        } catch(GraphException ge) {
+            System.out.println(ge.toString());
+        }

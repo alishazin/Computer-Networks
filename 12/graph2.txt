@@ -1,0 +1,21 @@
+Graph g = new Graph(4, 5);
+        
+        Node n1 = g.addVertex('1');
+        Node n2 = g.addVertex('2');
+        Node n3 = g.addVertex('3');
+        Node n4 = g.addVertex('4');
+
+
+        try {
+            
+            g.addEdge(n1, n2, 4, true);
+            g.addEdge(n1, n3, 5, true);
+            g.addEdge(n3, n2, 7, true);
+            g.addEdge(n2, n4, 7, true);
+            g.addEdge(n4, n3, -15, true);
+            
+
+            g.bellmanFordSP(n1);
+        } catch(GraphException ge) {
+            System.out.println(ge.toString());
+        }
