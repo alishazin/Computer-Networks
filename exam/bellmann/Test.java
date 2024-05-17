@@ -65,12 +65,10 @@ class Graph {
             for (int j=0; j<this.edgc; j++) {
                 Edge now = this.edges[j];
 
-                if (i == this.verc-1) {
-                    if (now.des.id != source.id && now.des.s_d > now.src.s_d + now.weight) {
+                if (now.des.id != source.id && now.des.s_d > now.src.s_d + now.weight) {
+                    if (i == this.verc-1) {
                         negc = true;
-                    }
-                } else {
-                    if (now.des.id != source.id && now.des.s_d > now.src.s_d + now.weight) {
+                    } else {
                         now.des.s_d = now.src.s_d + now.weight;
                         updated=true;
                     }

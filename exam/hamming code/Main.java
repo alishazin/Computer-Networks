@@ -33,12 +33,17 @@ public class Main {
 
         int q=0;
         for (int i=0; i<arr.length; i++) {
+
             if (Math.pow(2, q) == i+1) {
+
                 for (int j=1; j<=arr.length; j++) {
+
                     if (((j >> q) & 1) == 1 && j != i+1) {
                         arr[i] = arr[i] ^ arr[j - 1];
                     }
+
                 }
+
                 q++;
             }
         }
@@ -49,7 +54,7 @@ public class Main {
     
     public static void main(String[] args) {
 
-        String str = "100110110";
+        String str = "10101";
         int M = str.length();
 
         int r = 0;
