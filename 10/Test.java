@@ -48,7 +48,7 @@ public class Test {
     
     public static void main(String[] args) {
 
-        String str = "1001110001101";
+        String str = "100110110";
         int M = str.length();
         
         int r = 1;
